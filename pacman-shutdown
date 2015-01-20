@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+import subprocess
+import sys
+import shlex
+import signal
+
+download_args = ['pacman'] + sys.argv[1:] + ['--downloadonly']
+
+pacman_process = subprocess.Popen(download_args)
+try:
+    pacman_return_code = pacman_process.wait()
+except KeyboardInterrupt:
+    pacman_process.send_signal(signal.SIGINT)
+    pacman_return_code = pacman_process.wait()
+
+if pacman_return_code == 0:
+    install_args = ['pacman'] + sys.argv[1:]
+    install_args_quoted = ' '.join([shlex.quote(arg) for arg in install_args])
+    with open('/var/lib/pacman-shutdown', 'a') as f:
+        f.write(install_args_quoted + '\n')
+    print('Scheduled to run at shutdown: {}'.format(install_args_quoted))
+
+sys.exit(pacman_return_code)

@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+
+import subprocess
+import shlex
+import signal
+
+with open('/var/lib/pacman-shutdown') as f:
+    for line in f:
+        pacman_process = subprocess.Popen(shlex.split(line) + ['--noconfirm'])
+        try:
+            pacman_process.wait()
+        except KeyboardInterrupt:
+            pacman_process.send_signal(signal.SIGINT)
+            pacman_process.wait()
+            break

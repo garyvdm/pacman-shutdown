@@ -1,0 +1,8 @@
+[Unit]
+Description=Installs updates with pacman on shutdown.
+ConditionPathExists=/var/lib/pacman-shutdown
+WantedBy=final.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/pacman-shutdown-service
