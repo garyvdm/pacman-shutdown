@@ -1,17 +1,16 @@
 [Unit]
 Description=Installs updates with pacman on shutdown.
-ConditionPathExists=/var/lib/pacman-shutdown
-Before=shutdown.target
-Requires=local-fs.target
-After=local-fs.target
-Conflicts=basic.target
 DefaultDependencies=no
+Before=basic.target
+After=local-fs.target
+Conflicts=shutdown.target
 
 [Install]
-WantedBy=shutdown.target
+WantedBy=basic.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/lib/pacman-shutdown-service
+RemainAfterExit=yes
+ExecStart=
+ExecStop=/usr/lib/pacman-shutdown-service
 StandardOutput=journal+console
-
