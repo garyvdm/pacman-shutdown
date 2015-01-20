@@ -1,6 +1,8 @@
 [Unit]
 Description=Installs updates with pacman on shutdown.
 ConditionPathExists=/var/lib/pacman-shutdown
+
+[Install]
 WantedBy=final.target
 
 [Service]
