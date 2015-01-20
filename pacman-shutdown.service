@@ -6,3 +6,5 @@ WantedBy=final.target
 [Service]
 Type=oneshot
 ExecStart=/usr/lib/pacman-shutdown-service
+StandardOutput=journal+console
+
